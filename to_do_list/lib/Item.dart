@@ -8,7 +8,8 @@ class Item {
   late Icon icon;
   late Color color;
 
-  Item(String itemTitle, String itemDescription, bool itemState,Icon itemIcon,Color itemColor) {
+  Item(String itemTitle, String itemDescription, bool itemState, Icon itemIcon,
+      Color itemColor) {
     title = itemTitle;
     description = itemDescription;
     finished = itemState;
@@ -26,10 +27,28 @@ class Item {
 
   ListTile makeItem() {
     return ListTile(
-      leading: const Text("L"),
+      tileColor: color,
+      leading: icon,
       title: Text(title),
       subtitle: Text(description),
-      trailing: const Text("End"),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: const [
+          Padding(
+            padding: EdgeInsets.only(right: 12.5),
+            child: Icon(Icons.check_circle),
+          ),
+          Icon(Icons.delete),
+        ],
+      ),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(
+          color: Colors.blue,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
     );
   }
 }

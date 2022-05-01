@@ -34,23 +34,202 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _taskCounter = 0;
-  List _items = List.empty(growable: true);
+  final List<Item> _items = List.empty(growable: true);
   bool _startAddItem = false;
   bool _startClear = false;
-  late TextEditingController _controller;
+  late TextEditingController _controllerTitle;
+  late TextEditingController _controllerDescription;
+  late Icon _selectedIcon;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = TextEditingController();
+    _controllerTitle = TextEditingController();
+    _controllerDescription = TextEditingController();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
+    _controllerTitle.dispose();
+    _controllerDescription.dispose();
     super.dispose();
+  }
+
+  Container _addItemAlert() {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.2,
+      height: MediaQuery.of(context).size.height / 2.5,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.blueGrey,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
+            child: TextField(
+              controller: _controllerTitle,
+              obscureText: false,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                isCollapsed: false,
+                hintText: "Task Title",
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+            child: TextField(
+              controller: _controllerDescription,
+              obscureText: false,
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                isCollapsed: false,
+                hintText: "Task Description",
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: IconButton(
+                  icon: Icon(Icons.developer_mode),
+                  onPressed: () {
+                    _selectedIcon = Icon(Icons.developer_mode);
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: IconButton(
+                  icon: Icon(Icons.directions_run),
+                  onPressed: () {
+                    _selectedIcon = Icon(Icons.directions_run);
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: IconButton(
+                  icon: Icon(Icons.attach_money_rounded),
+                  onPressed: () {
+                    _selectedIcon = Icon(Icons.attach_money_rounded);
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: IconButton(
+                  icon: Icon(Icons.devices_other_sharp),
+                  onPressed: () {
+                    _selectedIcon = Icon(Icons.devices_other_sharp);
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                child: const Text("Cancel"),
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _startAddItem = false;
+                  });
+                },
+              ),
+              TextButton(
+                child: const Text("Add"),
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _startAddItem = false;
+                    _items.add(
+                      Item(
+                        _controllerTitle.text,
+                        _controllerDescription.text,
+                        false,
+                        _selectedIcon,
+                        Colors.blue,
+                      ),
+                    );
+                    _taskCounter = _items.length;
+                  });
+                },
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _clearItemsAlert() {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.2,
+      height: MediaQuery.of(context).size.height / 2.5,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.blueGrey,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: const Text("Cancel"),
+                onPressed: () {
+                  setState(() {
+                    _startClear = false;
+                  });
+                },
+              ),
+              TextButton(
+                child: const Text("Remove All"),
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _startClear = false;
+                    _items.clear();
+                    _taskCounter = _items.length;
+                  });
+                },
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -64,9 +243,8 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: 'Clear all items',
             onPressed: () {
               setState(() {
-                _startClear = true;
+                _startClear = !_startClear;
                 _startAddItem = false;
-                // _taskCounter = 0;
               });
             },
           ),
@@ -75,9 +253,8 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: 'Add item',
             onPressed: () {
               setState(() {
-                _startAddItem = true;
+                _startAddItem = !_startAddItem;
                 _startClear = false;
-                // _taskCounter++;
               });
             },
           ),
@@ -85,82 +262,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Stack(
             children: <Widget>[
               ListView.builder(
                 itemCount: _taskCounter,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.all(3.5),
-                    child: ListTile(
-                      tileColor: Colors.blue,
-                      leading: Icon(Icons.developer_mode),
-                      title: Text("Title"),
-                      subtitle: Text("Description"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 12.5),
-                            child: Icon(Icons.check_circle),
-                          ),
-                          Icon(Icons.delete),
-                        ],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+                    padding: const EdgeInsets.all(3.5),
+                    child: _items.elementAt(index).makeItem(),
                   );
                 },
               ),
               _startAddItem == true
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: MediaQuery.of(context).size.height / 3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.red,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(6),
-                                child: TextField(
-                                  controller: _controller,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isCollapsed: false,
-                                    hintText: "Task Title",
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(6),
-                                child: TextField(
-                                  controller: _controller,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isCollapsed: false,
-                                    hintText: "Task Title",
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      children: <Widget>[
+                        _addItemAlert(),
                       ],
                     )
                   : Container(
@@ -169,16 +287,8 @@ class _MyHomePageState extends State<MyHomePage> {
               _startClear == true
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: MediaQuery.of(context).size.height / 3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.green,
-                          ),
-                          child: null,
-                        ),
+                      children: <Widget>[
+                        _clearItemsAlert(),
                       ],
                     )
                   : Container(
@@ -191,15 +301,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-/*
-TextField(
-            controller: _controller,
-            obscureText: false,
-            decoration: InputDecoration(
-              isCollapsed: false,
-              hintText: "Task Title",
-              border: OutlineInputBorder(),
-            ),
-          ),
-*/
