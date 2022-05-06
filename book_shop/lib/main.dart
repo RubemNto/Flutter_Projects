@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 void main() {
@@ -32,8 +33,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late double BOOK_COVER_X;
+  late double BOOK_COVER_Y;
+
   @override
   Widget build(BuildContext context) {
+    BOOK_COVER_X = MediaQuery.of(context).size.width / 2.5;
+    BOOK_COVER_Y = MediaQuery.of(context).size.height / 2.5;
+
     return Scaffold(
       backgroundColor: HexColor("4F5D75"),
       appBar: AppBar(
@@ -42,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Open shopping cart',
+            tooltip: 'Search for book',
             onPressed: () {
               // handle the press
             },
@@ -57,22 +64,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: const Text(
-              "Best of the week",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: const Text(
+                  "Best of the week",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 5,
+            height: BOOK_COVER_Y,
             child: ListView.builder(
               cacheExtent: 2,
               shrinkWrap: true,
@@ -81,8 +92,33 @@ class _MyHomePageState extends State<MyHomePage> {
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width / 5,
+                  width: BOOK_COVER_X,
                   color: Colors.red,
+                );
+              },
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 2.6,
+            child: ListView.builder(
+              cacheExtent: 2,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2.8,
+                    color: Colors.red,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const <Widget>[
+
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
