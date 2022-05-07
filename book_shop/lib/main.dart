@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: const MyHomePage(title: 'Book Me'),
     );
@@ -96,11 +96,28 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: covers.length,
               itemBuilder: (context, index) {
                 return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(
+                        covers.elementAt(index),
+                      ),
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        spreadRadius: 4,
+                        blurRadius: 6,
+                        offset: Offset(0, 5), // changes position of shadow
+                      ),
+                    ],
+                    color: HexColor("2D1342"),
+                  ),
                   margin: EdgeInsets.all(10),
                   width: BOOK_COVER_X,
-                  child: Image.network(
-                    covers.elementAt(index),
-                  ),
                 );
               },
             ),
@@ -118,33 +135,83 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 2.8,
-                    color: Colors.red,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          spreadRadius: 4,
+                          blurRadius: 6,
+                          offset: Offset(0, 5), // changes position of shadow
+                        ),
+                      ],
+                      color: HexColor("2D1342"),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.fromLTRB(25, 25, 0, 25),
                           child: Container(
-                            color: Colors.blue,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Container(
-                                    width: BOOK_COVER_X * 0.75,
-                                    height: BOOK_COVER_Y * 0.75,
-                                    child: Image.network(
-                                      covers.elementAt(index),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Text("Book Title"),
-                                ),
-                              ],
+                            width: BOOK_COVER_X * 0.75,
+                            height: BOOK_COVER_Y * 0.75,
+                            child: Image.network(
+                              covers.elementAt(index),
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(25),
+                          child: Container(
+                              width: BOOK_COVER_X,
+                              height: BOOK_COVER_Y * 0.75,
+                              // color: Colors.blue,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Book Title",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Text(
+                                      "Book Genre",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Text(
+                                      "\$ 100,00",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.add_shopping_cart_rounded),
+                                    label: Text("Add to cart"),
+                                    style: ButtonStyle(),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                        Icons.account_balance_wallet_rounded),
+                                    label: Text("Check out"),
+                                  ),
+                                ],
+                              )),
                         ),
                       ],
                     ),
