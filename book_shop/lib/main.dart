@@ -44,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: HexColor("4F5D75"),
       appBar: AppBar(
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         title: Text(widget.title),
         backgroundColor: HexColor("2D1342"),
         actions: <Widget>[
@@ -63,24 +64,21 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        reverse: false,
+        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(20),
-                child: const Text(
-                  "Best of the week",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: const Text(
+              "Best of the week",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
-            ],
+            ),
           ),
           SizedBox(
             height: BOOK_COVER_Y,
@@ -99,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 2.6,
+            height: BOOK_COVER_Y,
             child: ListView.builder(
               cacheExtent: 2,
               shrinkWrap: true,
@@ -114,9 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.red,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-
-                      ],
+                      children: const <Widget>[],
                     ),
                   ),
                 );
@@ -126,5 +122,98 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+    // Column(
+    //   mainAxisAlignment: MainAxisAlignment.start,
+    //   children: <Widget>[
+    //     Container(
+    //       width: MediaQuery.of(context).size.width,
+    //       height: MediaQuery.of(context).size.height * 0.4,
+    //       color: Colors.red,
+    //       child: Row(
+    //         mainAxisAlignment: MainAxisAlignment.start,
+    //         children: <Widget>[
+    //           Column(
+    //             mainAxisAlignment: MainAxisAlignment.start,
+    //             children: <Widget>[
+    //               Container(
+    //                 padding: const EdgeInsets.all(20),
+    //                 child: const Text(
+    //                   "Best of the week",
+    //                   style: TextStyle(
+    //                     fontSize: 20,
+    //                     fontWeight: FontWeight.bold,
+    //                     color: Colors.white,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //     Container(
+    //       width: MediaQuery.of(context).size.width,
+    //       height: MediaQuery.of(context).size.height * 0.462,
+    //       color: Colors.blue,
+    //     ),
+    // Row(
+    //   mainAxisAlignment: MainAxisAlignment.start,
+    //   children: <Widget>[
+    //     Container(
+    //       padding: const EdgeInsets.all(20),
+    //       child: const Text(
+    //         "Best of the week",
+    //         style: TextStyle(
+    //           fontSize: 20,
+    //           fontWeight: FontWeight.bold,
+    //           color: Colors.white,
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // ),
+    // SizedBox(
+    //   height: BOOK_COVER_Y,
+    //   child: ListView.builder(
+    //     cacheExtent: 2,
+    //     shrinkWrap: true,
+    //     scrollDirection: Axis.horizontal,
+    //     itemCount: 10,
+    //     itemBuilder: (context, index) {
+    //       return Container(
+    //         margin: EdgeInsets.all(10),
+    //         width: BOOK_COVER_X,
+    //         color: Colors.red,
+    //       );
+    //     },
+    //   ),
+    // ),
+    // SizedBox(
+    //   height: BOOK_COVER_Y,
+    //   child: ListView.builder(
+    //     cacheExtent: 2,
+    //     shrinkWrap: true,
+    //     scrollDirection: Axis.vertical,
+    //     itemCount: 10,
+    //     itemBuilder: (context, index) {
+    //       return Padding(
+    //         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+    //         child: Container(
+    //           width: MediaQuery.of(context).size.width,
+    //           height: MediaQuery.of(context).size.height / 2.8,
+    //           color: Colors.red,
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.start,
+    //             children: const <Widget>[
+    //
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // ),
+    // ],
+    // ),);
   }
 }
