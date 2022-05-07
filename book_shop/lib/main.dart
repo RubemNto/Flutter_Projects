@@ -35,6 +35,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late double BOOK_COVER_X;
   late double BOOK_COVER_Y;
+  var covers = {
+    'https://images-na.ssl-images-amazon.com/images/I/5112YFsXIJL.jpg',
+    'https://www.porchlightbooks.com/globalassets/book-covers/9781647983925.jpg?w=1000&scale=both&mode=crop&u=637424626523630000',
+    'https://4.bp.blogspot.com/-pET8qAj1cys/W4W9tYjdQII/AAAAAAAABcM/myuRNjN2o4IiSMMaq0na5tiTYrDjC5jkwCLcBGAs/s1600/Capa%2Ba%2Bsutil.jpg',
+    'https://kbimages1-a.akamaihd.net/0533332f-c90f-4c14-a225-e1568203af13/1200/1200/False/lightning-thief-the-percy-jackson-and-the-olympians-book-1.jpg',
+    'https://m.media-amazon.com/images/I/71Q1Iu4suSL._AC_SL1000_.jpg',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
             child: const Text(
               "Best of the week",
               style: TextStyle(
@@ -86,12 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
               cacheExtent: 2,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: covers.length,
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.all(10),
                   width: BOOK_COVER_X,
-                  color: Colors.red,
+                  child: Image.network(
+                    covers.elementAt(index),
+                  ),
                 );
               },
             ),
@@ -102,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
               cacheExtent: 2,
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              itemCount: 10,
+              itemCount: covers.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -112,7 +121,32 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.red,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[],
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Container(
+                            color: Colors.blue,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Container(
+                                    width: BOOK_COVER_X * 0.75,
+                                    height: BOOK_COVER_Y * 0.75,
+                                    child: Image.network(
+                                      covers.elementAt(index),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Text("Book Title"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -122,98 +156,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-    // Column(
-    //   mainAxisAlignment: MainAxisAlignment.start,
-    //   children: <Widget>[
-    //     Container(
-    //       width: MediaQuery.of(context).size.width,
-    //       height: MediaQuery.of(context).size.height * 0.4,
-    //       color: Colors.red,
-    //       child: Row(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         children: <Widget>[
-    //           Column(
-    //             mainAxisAlignment: MainAxisAlignment.start,
-    //             children: <Widget>[
-    //               Container(
-    //                 padding: const EdgeInsets.all(20),
-    //                 child: const Text(
-    //                   "Best of the week",
-    //                   style: TextStyle(
-    //                     fontSize: 20,
-    //                     fontWeight: FontWeight.bold,
-    //                     color: Colors.white,
-    //                   ),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //     Container(
-    //       width: MediaQuery.of(context).size.width,
-    //       height: MediaQuery.of(context).size.height * 0.462,
-    //       color: Colors.blue,
-    //     ),
-    // Row(
-    //   mainAxisAlignment: MainAxisAlignment.start,
-    //   children: <Widget>[
-    //     Container(
-    //       padding: const EdgeInsets.all(20),
-    //       child: const Text(
-    //         "Best of the week",
-    //         style: TextStyle(
-    //           fontSize: 20,
-    //           fontWeight: FontWeight.bold,
-    //           color: Colors.white,
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // ),
-    // SizedBox(
-    //   height: BOOK_COVER_Y,
-    //   child: ListView.builder(
-    //     cacheExtent: 2,
-    //     shrinkWrap: true,
-    //     scrollDirection: Axis.horizontal,
-    //     itemCount: 10,
-    //     itemBuilder: (context, index) {
-    //       return Container(
-    //         margin: EdgeInsets.all(10),
-    //         width: BOOK_COVER_X,
-    //         color: Colors.red,
-    //       );
-    //     },
-    //   ),
-    // ),
-    // SizedBox(
-    //   height: BOOK_COVER_Y,
-    //   child: ListView.builder(
-    //     cacheExtent: 2,
-    //     shrinkWrap: true,
-    //     scrollDirection: Axis.vertical,
-    //     itemCount: 10,
-    //     itemBuilder: (context, index) {
-    //       return Padding(
-    //         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-    //         child: Container(
-    //           width: MediaQuery.of(context).size.width,
-    //           height: MediaQuery.of(context).size.height / 2.8,
-    //           color: Colors.red,
-    //           child: Row(
-    //             mainAxisAlignment: MainAxisAlignment.start,
-    //             children: const <Widget>[
-    //
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    // ),
-    // ],
-    // ),);
   }
 }
