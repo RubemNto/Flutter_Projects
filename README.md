@@ -1,8 +1,7 @@
 # Flutter_Projects
 <p align="center">
 <img src="https://cdn.worldvectorlogo.com/logos/flutter-logo.svg" height = 40>
-<img src="https://cdn.worldvectorlogo.com/logos/android-4.svg
-" height = 40>
+<img src="https://cdn.worldvectorlogo.com/logos/android-4.svg" height = 40>
 <img src="https://cdn.worldvectorlogo.com/logos/dart.svg" height = 40>
 </p>
 <p align="center">
